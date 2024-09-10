@@ -8,12 +8,12 @@ public class ExampleScene : MonoBehaviour
 
     public void SavePlayer()
     {
-        SaveManager.SaveData(PlayerController);
+        SaveManager.SaveData<PlayerController, PlayerModel>(PlayerController);
     }
 
     public void LoadPlayer()
     {
-        SaveManager.LoadData(PlayerController);
+        SaveManager.LoadData<PlayerController, PlayerModel>(PlayerController);
     }
 
     public void ResetScene()

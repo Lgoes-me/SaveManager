@@ -1,34 +1,34 @@
 ﻿using UnityEngine;
 
-public class PlayerModel
-{
-    public Vector3Model Position { get; private set; }
-    public string Name { get; private set; }
-    public int Score { get; private set; }
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
-    public PlayerModel(Vector3 position, string name, int score)
+public class PlayerModel: ISavable<PlayerController>, ILoadable<PlayerController>
+{
+    public string Id { get; set; }
+    public float[] Position { get; set; }
+    public string Name { get; set; }
+    public int Score { get; set; }
+
+    public PlayerModel()
     {
-        Position = new Vector3Model(position);
-        Name = name;
-        Score = score;
+        Id = "Player.json";
     }
-}
-
-public class Vector3Model
-{
-    public float X { get; set; }
-    public float Y { get; set; }
-    public float Z { get; set; }
-
-    public Vector3Model(Vector3 vector3)
+    
+    public PlayerController LoadData(PlayerController data)
     {
-        X = vector3.x;
-        Y = vector3.y;
-        Z = vector3.z;
+        data.transform.position = new Vector3(Position[0], Position[1], Position[2]);
+        data.Name = Name;
+        data.Score = Score;
+
+        return data;
     }
 
-    public Vector3 ToVector3()
+    public void SaveData(PlayerController data)
     {
-        return new Vector3(X, Y, Z);
+        var position = data.transform.position;
+        Position = new[] {position.x,position.y, position.z};
+        Name = data.Name;
+        Score = data.Score;
     }
 }
